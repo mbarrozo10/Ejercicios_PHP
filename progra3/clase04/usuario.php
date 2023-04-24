@@ -1,5 +1,6 @@
 <?php
 class Usuario{
+    
     public $nombre;
     public $clave;
     public $mail;
@@ -35,6 +36,28 @@ class Usuario{
             $ruta='Usuario/fotos/' . $usuario->id ."-" .$usuario->nombre. ".png";
             move_uploaded_file($foto['tmp_name'],$ruta);
         }
+    }
+
+    static function LeerJson(){
+        $archivo= "usuarios.json";;
+        if(file_exists($archivo)){
+            $jsonString= file_get_contents($archivo);
+            $usuarios= json_decode($jsonString);
+            return $usuarios;
+        }
+        else{
+            echo "No existe el archivo";
+        }
+    }
+
+
+    static function ConseguirUsuario($usuarios, $id){
+        foreach($usuarios as $user){
+            if($user->id==$id){
+                return $user;
+            }
+        }
+        return null;
     }
 }
 
