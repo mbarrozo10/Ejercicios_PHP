@@ -19,7 +19,7 @@ class Usuario{
     static function GuardarJson($usuario, $usuarios){
         $archivo='usuarios.json';
         if(file_exists($archivo)){
-            $usuarios= json_decode(file_get_contents($archivo),true);
+            $usuarios= json_decode(file_get_contents($archivo));
         }
         if(!in_array($usuario,$usuarios)){
             array_push($usuarios,$usuario);
@@ -39,7 +39,7 @@ class Usuario{
     }
 
     static function LeerJson(){
-        $archivo= "usuarios.json";;
+        $archivo= "usuarios.json";
         if(file_exists($archivo)){
             $jsonString= file_get_contents($archivo);
             $usuarios= json_decode($jsonString);

@@ -49,20 +49,7 @@ class Producto{
         return false;
     }
 
-    static function RealizarCompra($cantidad, $codigo, $usuario, $productos){
-        require_once("usuario.php");
-        $archivo='productos.json';
-        $producto;
-        $id=rand(1,10000);
-        foreach($productos as $prod){
-            if($prod->codigo==$codigo){
-                $producto= $prod;
-                break;
-            }
-        }
-        
-    }
-
+    
 
     
 
