@@ -21,19 +21,36 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
     }
 }else if($_SERVER['REQUEST_METHOD']==='PUT'){
     require_once("ModificarVenta.php");
-    parse_str(file_get_contents("php://input"),$put_vars);
-    $pedido= $put_vars['pedido'];
-    $mail = $put_vars['mail'];
-    $tipo = $put_vars['tipo'];
-    $sabor= $put_vars['sabor'];
-    $cantidad= $put_vars['cantidad'];
+    parse_str(file_get_contents("php://input"),$datos);
+    $pedido= $datos['pedido'];
+    $mail = $datos['mail'];
+    $tipo = $datos['tipo'];
+    $sabor= $datos['sabor'];
+    $cantidad= $datos['cantidad'];
     Modifica::ModificarBd($pedido,$mail,$tipo,$sabor,$cantidad);
 
 }else if($_SERVER['REQUEST_METHOD']==='DELETE'){
     require_once("BorrarVenta.php");
-    parse_str(file_get_contents("php://input"),$put_vars);
-    $pedido= $put_vars['pedido'];
+    parse_str(file_get_contents("php://input"),$datos);
+    $pedido= $datos['pedido'];
     Borrar::Borrar($pedido);
 }
 
 ?>
+
+}else if($_SERVER['REQUEST_METHOD']==='PUT'){
+    require_once("ModificarVenta.php");
+    parse_str(file_get_contents("php://input"),$datos);
+    $pedido= $datos['pedido'];
+    $mail = $datos['mail'];
+    $tipo = $datos['tipo'];
+    $sabor= $datos['sabor'];
+    $cantidad= $datos['cantidad'];
+    Modifica::ModificarBd($pedido,$mail,$tipo,$sabor,$cantidad);
+
+}else if($_SERVER['REQUEST_METHOD']==='DELETE'){
+    require_once("BorrarVenta.php");
+    parse_str(file_get_contents("php://input"),$datos);
+    $pedido= $datos['pedido'];
+    Borrar::Borrar($pedido);
+}
