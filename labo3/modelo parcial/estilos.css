@@ -1,0 +1,51 @@
+
+label{
+    display: flex;
+    flex-direction: columns;
+    margin-bottom: 10px;
+}
+
+input{
+    margin-bottom: 10px;
+    border-radius: 60px;
+}
+
+#FieldTransaccion{
+    border: none ;
+    padding: 0;
+}
+
+#formularioAlta{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+#txtTitulo, #txtDescricion, #txtPrecio, #txtCantBaños, #txtCantAutos, #txtDormitorios{
+    width:100px;
+    height:28px;
+    line-height:28px;
+    padding:0 8px;
+}
+
+h1{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+table{
+    border-collapse: collapse ;
+    width: 80%;
+    margin: 0 auto;
+}
+
+th, td{
+    border: 1px solid black ;
+    width:100px;
+    height:28px;
+    line-height:28px;
+    padding:0 8px;
+}

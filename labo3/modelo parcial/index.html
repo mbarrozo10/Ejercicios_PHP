@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link  rel="stylesheet" href="estilos.css">
+    <script src="anuncios.js" type="module" defer></script>
+    <title>Modelo parcial</title>
+</head>
+<body>
+    <header>
+        <h1>Formulario de alta de propiedad</h1>
+    </header>
+    <form id="formularioAlta">  
+        <fieldset id="FieldAlta">
+            <legend>
+                <label>Alta de anuncio</label>
+            </legend>
+            <label >Titulo</label>
+            <input type="text" id="txtTitulo" name="titulo" placeholder="Titulo">
+
+            <fieldset id="FieldTransaccion">
+                <legend >Transaccion</legend>
+                <label >Venta</label>
+                <input type="radio" name="transaccion" checked id="rTransaccionVenta">
+                <label >Alquiler</label>
+                <input type="radio" name="transaccion" id="rTransaccionAlquiler">
+            </fieldset>
+
+            <label for="descripcion">Descripcion</label>
+            <input type="text" id="txtDescripcion" placeholder="Descripcion">
+
+            <label for="Precio">Precio</label>
+            <input type="text" id="txtPrecio" placeholder="Precio">
+
+            <label for="CantBaños">Cantidad de Baños: </label>
+            <input type="text" id="txtCantBaños" placeholder="Baños">
+
+            <label for="CantAutos">Cantidad de autos:</label>
+            <input type="text" id="txtCantAutos" placeholder="Autos">
+
+            <label for="CantDorm">Cantidad de dormitorios:</label>
+            <input type="text" id="txtDormitorios" placeholder="Dormitorios">
+        </fieldset>
+
+        <input type="submit" id="btnGuardar" value="Guardar" >
+
+
+        <section id="selTabla">
+
+
+        </section>
+    </form>
+</body>
+</html>

@@ -1,0 +1,16 @@
+export const anuncios = [
+    {"titulo":"3 Stuart Hill","descripcion":"Crimson","precio":686659,"numBan":3,"numEstacionamiento":2,"numDormitorios":3,"transaccion":"venta"},
+{"titulo":"716 Katie Parkway","descripcion":"Mauv","precio":566086,"numBan":2,"numEstacionamiento":3,"numDormitorios":2,"transaccion":"venta"},
+{"titulo":"07822 Holmberg Way","descripcion":"Purple","precio":70728,"numBan":4,"numEstacionamiento":2,"numDormitorios":2,"transaccion":"venta"},
+{"titulo":"100 Arapahoe Trail","descripcion":"Green","precio":865874,"numBan":5,"numEstacionamiento":1,"numDormitorios":3,"transaccion":"venta"},
+{"titulo":"0 Westerfield Crossing","descripcion":"Puce","precio":398260,"numBan":5,"numEstacionamiento":2,"numDormitorios":3,"transaccion":"venta"},
+{"titulo":"009 Artisan Road","descripcion":"Puce","precio":54248,"numBan":3,"numEstacionamiento":1,"numDormitorios":8,"transaccion":"alquiler"},
+{"titulo":"0761 Iowa Plaza","descripcion":"Blue","precio":110166,"numBan":3,"numEstacionamiento":2,"numDormitorios":3,"transaccion":"alquiler"},
+{"titulo":"45 Eastlawn Avenue","descripcion":"Fuscia","precio":911309,"numBan":4,"numEstacionamiento":2,"numDormitorios":5,"transaccion":"alquiler"},
+{"titulo":"100 Northland Circle","descripcion":"Goldenrod","precio":151213,"numBan":4,"numEstacionamiento":2,"numDormitorios":3,"transaccion":"alquiler"},
+{"titulo":"7547 Gulseth Circle","descripcion":"Teal","precio":996078,"numBan":4,"numEstacionamiento":1,"numDormitorios":5,"transaccion":"alquiler"},
+{"titulo":"6069 Artisan Trail","descripcion":"Teal","precio":72014,"numBan":2,"numEstacionamiento":2,"numDormitorios":1,"transaccion":"alquiler"},
+{"titulo":"9240 Kenwood Way","descripcion":"Purple","precio":510110,"numBan":4,"numEstacionamiento":1,"numDormitorios":4,"transaccion":"alquiler"},
+{"titulo":"88 Texas Drive","descripcion":"Purple","precio":299776,"numBan":3,"numEstacionamiento":2,"numDormitorios":7,"transaccion":"venta"},
+{"titulo":"90 Green Ridge Street","descripcion":"Pink","precio":810296,"numBan":4,"numEstacionamiento":1,"numDormitorios":8,"transaccion":"venta"},
+{"titulo":"50380 Bartelt Circle","descripcion":"Turquoise","precio":239192,"numBan":5,"numEstacionamiento":1,"numDormitorios":7,"transaccion":"alquiler"}];
