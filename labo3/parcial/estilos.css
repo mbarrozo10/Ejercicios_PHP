@@ -6,7 +6,7 @@ label{
     color: white;
 }
 
- input{
+ #txtId,#txtTitulo,#txtDescripcion,#txtCantBaños,#txtCantAutos,#txtDormitorios{
     margin-bottom: 10px;
     border-radius: 8px;
 } 
@@ -50,6 +50,24 @@ table{
     width: 80%;
     margin: 0 auto;
     
+}
+
+#btnGuardar,#btnMod,#btnBorrar{
+    display: inline-block;
+    flex-direction: column;
+    align-items: center;
+    min-width: 70px;
+    text-align:center;
+    font-weight: 600;
+    color:white;
+    padding-top:5px;
+    padding-bottom:5px;
+    background-color:#242434;
+    border-color: #d8d8d8;
+    border-width: 1px;
+    border-style: solid;
+    border-radius:20px;
+    margin-bottom: 10px;
 }
 
 th, td{

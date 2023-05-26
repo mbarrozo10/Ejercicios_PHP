@@ -1,5 +1,4 @@
 
-
 //Metodo generar tabla exportado para poder usarse en anuncios
 export const crearTabla = (data) => {
     if(!Array.isArray(data)) return null;
@@ -49,7 +48,6 @@ const CrearCabecera = () => {
 };
 
 //Crea el cuerpo de la tabla con los datos pasados
-
 const CrearCuerpo= (data) => {
     const tbody = document.createElement("tbody");
 
