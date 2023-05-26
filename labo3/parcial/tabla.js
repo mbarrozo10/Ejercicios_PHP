@@ -1,14 +1,18 @@
+
+
+//Metodo generar tabla exportado para poder usarse en anuncios
 export const crearTabla = (data) => {
     if(!Array.isArray(data)) return null;
 
     const tabla = document.createElement('tabla');
-    tabla.appendChild(CrearCabecera(data[0]));
+    tabla.appendChild(CrearCabecera());
     tabla.appendChild(CrearCuerpo(data));
 
     return tabla;
 }
 
-const CrearCabecera = (data) => {
+//Crea la cabecera, puede hacerse dinamicamente pero no quiero <3
+const CrearCabecera = () => {
     const thead = document.createElement("thead"),
     headrow= document.createElement("tr");
     
@@ -44,6 +48,7 @@ const CrearCabecera = (data) => {
     return thead;
 };
 
+//Crea el cuerpo de la tabla con los datos pasados
 
 const CrearCuerpo= (data) => {
     const tbody = document.createElement("tbody");
@@ -65,7 +70,7 @@ const CrearCuerpo= (data) => {
     return tbody;
 }
 
-
+//Actualiza la tabla, exporto para poder usarla cuando la necesito
 export const actualizarTabla= (contenedor, data) => {
     while(contenedor.hasChildNodes()) {
       contenedor.removeChild(contenedor.lastChild);

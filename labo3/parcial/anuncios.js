@@ -8,6 +8,8 @@ $seccionTabla.appendChild(crearTabla(JSON.parse(localStorage.getItem('anuncios')
 let anuncios= JSON.parse(localStorage.getItem('anuncios')) || [];
 
 
+//Seteo addevent para que guarde el manejador 
+
 window.addEventListener('DOMContentLoaded', () => {
     const formulario = document.getElementById('formularioAlta');
     formulario.txtId.maxlength = anuncios[anuncios.length - 1].id;
@@ -17,36 +19,32 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
 
+//Decido si voy a guardar o a modificar dependiendo del estado del boton (no es lo mejor)
 
-
-  function Manejador(event) {
-    event.preventDefault();
-    const formulario = document.getElementById('formularioAlta');
-    if(formulario.btnMod.disabled) {
-      GuardarAnuncio();
-      }
-    else {
-      ModificarAnuncio(formulario);
+function Manejador(event) {
+  event.preventDefault();
+  const formulario = document.getElementById('formularioAlta');
+  if(formulario.btnMod.disabled) {
+    GuardarAnuncio();
     }
+  else {
+    ModificarAnuncio(formulario);
+  }
   }
 
 
-    function AgregarAnuncio(Anuncio) {
-    anuncios.push(Anuncio);
-    console.log(anuncios);
-    localStorage.setItem('anuncios', JSON.stringify(anuncios));
-    actualizarTabla($seccionTabla,anuncios); 
-  }
 
-  window.addEventListener("click", (e) => {
-    if(e.target.matches("td")){
-        
-        const id = e.target.parentElement.dataset.id;
-        const anuncioSeleccionado = anuncios.find((anun) => anun.id==id);
-        CargarDatosSeleccionado(anuncioSeleccionado);
-    }
+//Event listener para detectar si apreto en la tabla
+window.addEventListener("click", (e) => {
+  if(e.target.matches("td")){
+      
+      const id = e.target.parentElement.dataset.id;
+      const anuncioSeleccionado = anuncios.find((anun) => anun.id==id);
+      CargarDatosSeleccionado(anuncioSeleccionado);
+  }
 });
 
+//Genero el objeto anuncio y verifico sus valores
 function GuardarAnuncio() {
   const id= parseInt(document.getElementById('txtId').value);
   const titulo = document.getElementById('txtTitulo').value;
@@ -73,7 +71,15 @@ function GuardarAnuncio() {
 
 }
 
+//Agrego el anuncio al array y actualizo el localstorage y la tabla
+function AgregarAnuncio(Anuncio) {
+  anuncios.push(Anuncio);
+  console.log(anuncios);
+  localStorage.setItem('anuncios', JSON.stringify(anuncios));
+  actualizarTabla($seccionTabla,anuncios); 
+}
 
+//Carga los datos de la tabla al formulario
 function CargarDatosSeleccionado(anuncioSeleccionado){
     const formulario = document.getElementById('formularioAlta');
     formulario.txtId.value= anuncioSeleccionado.id;
@@ -90,6 +96,7 @@ function CargarDatosSeleccionado(anuncioSeleccionado){
     
 }
 
+//Limpia el formulario
 function LimpiarFormulario(id) {
   document.getElementById('txtId').value = id;
   document.getElementById('txtTitulo').value = "";
@@ -100,6 +107,7 @@ function LimpiarFormulario(id) {
   document.getElementById('txtDormitorios').value = "";
 }
 
+//Modifica el anuncio seleccionado en la tabla
 function ModificarAnuncio(formulario) {
     anuncios.find((anun) => {
       if(anun.id===parseInt(formulario.txtId.value) ){
@@ -122,6 +130,7 @@ function ModificarAnuncio(formulario) {
     formulario.btnBorrar.disabled=true;
 }
 
+//Borra el anuncio seleccionado en la tabla
 function BorrarAnuncio(anuncioBorrar, formulario){
   let anunciosNuevo= [];
   anuncios.forEach((anun) => {
