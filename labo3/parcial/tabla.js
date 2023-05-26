@@ -2,16 +2,17 @@ export const crearTabla = (data) => {
     if(!Array.isArray(data)) return null;
 
     const tabla = document.createElement('tabla');
-    tabla.appendChild(CrearCabecera());
+    tabla.appendChild(CrearCabecera(data[0]));
     tabla.appendChild(CrearCuerpo(data));
 
     return tabla;
 }
 
-const CrearCabecera = () => {
+const CrearCabecera = (data) => {
     const thead = document.createElement("thead"),
     headrow= document.createElement("tr");
     
+    const thId= document.createElement("th");
     const thTitulo= document.createElement("th");
     const thtrans= document.createElement("th");
     const thDesc=   document.createElement("th");
@@ -20,6 +21,7 @@ const CrearCabecera = () => {
     const thEst=   document.createElement("th");
     const thDor= document.createElement("th");
     
+    thId.textContent = "Id";
     thTitulo.textContent = "Titulo ";
     thtrans.textContent = "Transaccion ";
     thDesc.textContent = "Descripcion ";
@@ -28,6 +30,7 @@ const CrearCabecera = () => {
     thEst.textContent = "Estacionamientos";
     thDor.textContent = "Dormitorios";
 
+    headrow.appendChild(thId);
     headrow.appendChild(thTitulo);
     headrow.appendChild(thtrans);
     headrow.appendChild(thDesc);
@@ -48,8 +51,12 @@ const CrearCuerpo= (data) => {
     data.forEach(element => {
         const tr= document.createElement("tr");
         for(const key in element) {
+            if(key ==="id"){
+                tr.dataset.id=element[key];
+            }
             const td= document.createElement("td");
             td.textContent = element[key];
+          
             tr.appendChild(td);
 
         }
@@ -65,3 +72,5 @@ export const actualizarTabla= (contenedor, data) => {
     }
     contenedor.appendChild(crearTabla(data));
   }
+
+

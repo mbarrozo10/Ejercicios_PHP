@@ -3,36 +3,45 @@ label{
     display: flex;
     flex-direction: columns;
     margin-bottom: 10px;
+    color: white;
 }
 
-input{
+ input{
     margin-bottom: 10px;
-    border-radius: 60px;
-}
+    border-radius: 8px;
+} 
 
 #FieldTransaccion{
+    color: white;
     border: none ;
     padding: 0;
 }
 
-#formularioAlta{
+#legendaTrans{
+    margin-bottom: 10px;
+}
+
+#formularioAlta, #selTabla{
     display: flex;
     flex-direction: column;
     align-items: center;
-    
 }
 
-#txtTitulo, #txtDescricion, #txtPrecio, #txtCantBaños, #txtCantAutos, #txtDormitorios{
-    width:100px;
-    height:28px;
-    line-height:28px;
-    padding:0 8px;
+body{
+    background-color: #242424;
+}
+
+#FieldAlta{
+    margin-bottom: 10px;
+    border-radius: 20px;
+    
 }
 
 h1{
     display: flex;
     flex-direction: column;
     align-items: center;
+    color: white;
 }
 
 
@@ -40,12 +49,14 @@ table{
     border-collapse: collapse ;
     width: 80%;
     margin: 0 auto;
+    
 }
 
 th, td{
-    border: 1px solid black ;
+    border: 1px solid white ;
     width:100px;
     height:28px;
     line-height:28px;
     padding:0 8px;
+    color: white;
 }

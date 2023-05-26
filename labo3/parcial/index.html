@@ -18,39 +18,44 @@
                 <label>Alta de anuncio</label>
             </legend>
             <label >Titulo</label>
-            <input type="text" id="txtTitulo" name="titulo" placeholder="Titulo">
+            <input type="text" id="txtTitulo" name="titulo" placeholder="  Titulo">
 
+            <label >Id</label>
+            <input type="text" id="txtId" name="id" placeholder="  0">
             <fieldset id="FieldTransaccion">
-                <legend >Transaccion</legend>
+                <legend id="legendaTrans" >Transaccion</legend>
                 <label >Venta</label>
-                <input type="radio" name="transaccion" checked id="rTransaccionVenta">
+                <input type="radio" name="transaccion" value="Venta" checked id="rTransaccionVenta">
                 <label >Alquiler</label>
-                <input type="radio" name="transaccion" id="rTransaccionAlquiler">
+                <input type="radio" name="transaccion" value="Alquiler"  id="rTransaccionAlquiler">
             </fieldset>
 
             <label for="descripcion">Descripcion</label>
-            <input type="text" id="txtDescripcion" placeholder="Descripcion">
+            <input type="text" id="txtDescripcion" placeholder="  Descripcion">
 
             <label for="Precio">Precio</label>
-            <input type="text" id="txtPrecio" placeholder="Precio">
+            <input type="number" id="txtPrecio" placeholder="  Precio">
 
             <label for="CantBaños">Cantidad de Baños: </label>
-            <input type="text" id="txtCantBaños" placeholder="Baños">
+            <input type="number" id="txtCantBaños" placeholder="  Baños">
 
             <label for="CantAutos">Cantidad de autos:</label>
-            <input type="text" id="txtCantAutos" placeholder="Autos">
+            <input type="number" id="txtCantAutos" placeholder="  Autos">
 
             <label for="CantDorm">Cantidad de dormitorios:</label>
-            <input type="text" id="txtDormitorios" placeholder="Dormitorios">
+            <input type="number" id="txtDormitorios" placeholder="  Dormitorios">
         </fieldset>
-
-        <input type="submit" id="btnGuardar" value="Guardar" >
-
+    <div>
+        <input type="submit" id="btnGuardar" value="Guardar"  >
+        <input type="submit" id="btnMod" value="Modificar" disabled="true">
+        <input type="button" id="btnBorrar" value="Borrar" disabled="true">
+    </div>
+    </form>
 
         <section id="selTabla">
 
 
         </section>
-    </form>
+   
 </body>
 </html>
