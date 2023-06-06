@@ -3,7 +3,7 @@ import {Anuncio} from './anuncio.js';
 import {crearTabla} from './tabla.js';
 import {actualizarTabla} from './tabla.js';
 localStorage.setItem('anuncios', JSON.stringify(lista));
-const $seccionTabla= document.getElementById('selTabla');
+const $seccionTabla= document.getElementById("selTabla");
 $seccionTabla.appendChild(crearTabla(JSON.parse(localStorage.getItem('anuncios'))));
 let anuncios= JSON.parse(localStorage.getItem('anuncios')) || [];
 
@@ -17,6 +17,7 @@ window.addEventListener('DOMContentLoaded', () => {
     formulario.addEventListener('submit', Manejador);
    
   });
+
 
 
 //Decido si voy a guardar o a modificar dependiendo del estado del boton (no es lo mejor)
@@ -89,10 +90,27 @@ function CargarDatosSeleccionado(anuncioSeleccionado){
     formulario.txtCantBaños.value= anuncioSeleccionado.numBan;
     formulario.txtCantAutos.value= anuncioSeleccionado.numEstacionamiento;
     formulario.txtDormitorios.value= anuncioSeleccionado.numDormitorios;
+    if(anuncioSeleccionado.transaccion == "venta")
+        {
+            document.getElementById('rTransaccionVenta').checked = true;
+            document.getElementById('rTransaccionAlquiler').checked = false;
+        }else
+        {
+            document.getElementById('rTransaccionVenta').checked = false;
+            document.getElementById('rTransaccionAlquiler').checked = true;
+        }
     formulario.btnMod.disabled=false;
     formulario.btnGuardar.disabled=true;
     formulario.btnBorrar.disabled=false;
+    formulario.btnCancelar.disabled=false;
     formulario.btnBorrar.addEventListener('click',() => {BorrarAnuncio(anuncioSeleccionado, formulario)});
+    formulario.btnCancelar.addEventListener('click',() => {
+      LimpiarFormulario(0);
+      formulario.btnMod.disabled=true;
+    formulario.btnGuardar.disabled=false;
+    formulario.btnBorrar.disabled=true;
+    formulario.btnCancelar.disabled=true;
+    })
     
 }
 

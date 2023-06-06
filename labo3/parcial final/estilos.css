@@ -5,6 +5,27 @@ label{
     margin-bottom: 10px;
     color: white;
 }
+#logo {
+    width: 100px;
+    height: 100px;
+}
+ul{
+    display: flex;
+    list-style: none;
+    margin-right: 30px;
+}
+
+ul a{
+    margin-left: 20px;
+    text-decoration: none !important;
+}
+
+header{
+    display: flex;
+    flex-direction: row;
+    background-color: white ;
+    justify-content: space-between;
+}
 
  #txtId,#txtTitulo,#txtDescripcion,#txtCantBaños,#txtCantAutos,#txtDormitorios{
     margin-bottom: 10px;
@@ -34,7 +55,13 @@ body{
 #FieldAlta{
     margin-bottom: 10px;
     border-radius: 20px;
+    background-image: url("fondo.jpg");
     
+}
+
+footer{
+    background-color: white;
+    height: 100px;
 }
 
 h1{
@@ -43,6 +70,7 @@ h1{
     align-items: center;
     color: white;
 }
+
 
 
 table{
@@ -69,7 +97,9 @@ table{
     border-radius:20px;
     margin-bottom: 10px;
 }
-
+thead{
+    background-color: rgb(77, 14, 14);
+}
 th, td{
     border: 1px solid white ;
     width:100px;
@@ -78,6 +108,7 @@ th, td{
     padding:0 8px;
     color: white;
 }
+
 
 
 #spinner {
@@ -104,3 +135,10 @@ th, td{
     display: none;
     text-align: center;
 }
+
+.Fichas{
+    background-color: rgb(110, 21, 21) ;
+    width: 200ox;
+    margin-bottom: 10px;
+}
+
