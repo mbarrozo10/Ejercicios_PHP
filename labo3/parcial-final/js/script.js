@@ -4,20 +4,21 @@ import {armas} from './armas.js';
 import {crearTabla} from './tabla.js';
 import {actualizarTabla} from './tabla.js';
 
+localStorage.setItem('Armas', JSON.stringify(armas));
 const $seccionTabla= document.getElementById("selTabla");
 let listaHeroes= JSON.parse(localStorage.getItem('Heroes')) || Heroes;
 let flag=true;
 let indice=0;
-localStorage.setItem('Heroes', JSON.stringify(listaHeroes
-));
-//Seteo addevent para que guarde el manejador 
+localStorage.setItem('Heroes', JSON.stringify(listaHeroes));
+
+const armasHeroes= JSON.parse(localStorage.getItem('Armas'));
 
 $seccionTabla.appendChild(crearTabla(JSON.parse(localStorage.getItem('Heroes'))));
 window.addEventListener('DOMContentLoaded', () => {
 
     const formulario = document.getElementById('formularioAlta');
 
-    armas.forEach((x) => {
+    armasHeroes.forEach((x) => {
       const opcion = document.createElement('option');
       opcion.value = x;
       opcion.text= x;
@@ -42,6 +43,29 @@ function Manejador(event) {
   }
   }
 
+const personajes = document.getElementById('personajes');
+const home= document.getElementById('home');
+const homefooter= document.getElementById('homefoot');
+const personajeFoot= document.getElementById('personajesfoot');
+personajes.addEventListener('click', function(event) {
+  event.preventDefault();
+  window.location.href = './principal.html';
+});
+
+homefooter.addEventListener('click', function(event) {
+  event.preventDefault();
+  window.location.href = './index.html';
+});
+
+personajeFoot.addEventListener('click', function(event) {
+  event.preventDefault();
+  window.location.href = './principal.html';
+});
+home.addEventListener('click', function(event) {
+  event.preventDefault();
+  window.location.href = './index.html';
+});
+
 
 
 //Event listener para detectar si apreto en la tabla
@@ -54,6 +78,7 @@ window.addEventListener("click", (e) => {
     .find((personaje) => personaje.id==id);
       CargarDatosSeleccionado(anuncioSeleccionado);
   }
+
 });
 
 //Genero el objeto anuncio y verifico sus valores
@@ -64,9 +89,9 @@ function GuardarAnuncio() {
   const fuerza= document.getElementById('fuerza').value;
   const indice= document.getElementById('arma').selectedIndex;
   let arma;
-  for(const key in armas){
+  for(const key in armasHeroes){
     if(key== indice){
-      arma= armas[key];
+      arma= armasHeroes[key];
     }
 
   }
@@ -105,9 +130,9 @@ function CargarDatosSeleccionado(anuncioSeleccionado){
     formulario.txtDescripcion.value= anuncioSeleccionado.alias;
     formulario.fuerza.value= anuncioSeleccionado.fuerza;
     flag=false;
-    for(const key in armas){
+    for(const key in armasHeroes){
       
-        if(armas[key]== anuncioSeleccionado.arma){
+        if(armasHeroes[key]== anuncioSeleccionado.arma){
           formulario.arma.selectedIndex= key;
         }
     }
@@ -169,9 +194,9 @@ function ModificarAnuncio(formulario) {
         personaje.fuerza= document.getElementById('fuerza').value;
         const indice= document.getElementById('arma').selectedIndex;
         let arma;
-        for(const key in armas){
+        for(const key in armasHeroes){
           if(key== indice){
-            arma= armas[key];
+            arma= armasHeroes[key];
           }
 
         }

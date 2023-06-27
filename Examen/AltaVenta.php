@@ -13,9 +13,11 @@ class AltaVenta{
                if($pro->cantidad >= $cantidad){
                     $venta = new Venta($nombre,$tipo,$pro->precio*$cantidad,$aderezo,$mail,$cantidad);
 
-                    if(isset($_POST['cupon'])){
+                    if(isset($_POST['cupon']) ){
+                        if($_POST['cupon'] == "")
                         self::VerificarCupon($venta);
                     }
+
                     $ventas= array();
                     if(file_exists("Ventas.json")){
                         $ventas= json_decode(file_get_contents("Ventas.json"),true);   
@@ -35,7 +37,9 @@ class AltaVenta{
 }
 
     static function VerificarCupon ($venta){
-        $cupones= json_decode(file_get_contents("cupones.json"));
+        if(file_exists("cupones.json")) $cupones= json_decode(file_get_contents("cupones.json"));
+        else $cupones= array();
+
         $flag= false;
         foreach($cupones as $cupon){
             if($cupon->id == $_POST['cupon'] && $cupon->estado == "Vigente"){

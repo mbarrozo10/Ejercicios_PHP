@@ -1,22 +1,120 @@
-import{anuncios as lista} from './listaAnuncios.js';
 import {Anuncio} from './anuncio.js';
-import {crearTabla} from './tabla.js';
 import {actualizarTabla} from './tabla.js';
-localStorage.setItem('anuncios', JSON.stringify(lista));
+const URL= "http://localhost:3000/anuncios";
+
 const $seccionTabla= document.getElementById("selTabla");
-$seccionTabla.appendChild(crearTabla(JSON.parse(localStorage.getItem('anuncios'))));
-let anuncios= JSON.parse(localStorage.getItem('anuncios')) || [];
+const loader= document.getElementById("loader");
+loader.classList.add("oculto");
+let anuncios = [];
+//const anuncios= [];
+
+
+function GetAnuncios (url) {
+  loader.classList.remove("oculto");
+  axios.get(url)
+  .then((rta) => {
+    anuncios = rta.data;
+    //$seccionTabla.appendChild(crearTabla(anuncios));
+    actualizarTabla($seccionTabla,anuncios);
+    MapeadoPromedio();
+  })
+  .catch((err) => {
+    console.error(err.message);
+  })
+  .finally(() => {
+    loader.classList.add("oculto");
+
+  });
+}
+
+function FiltrarTransaccion() {
+  let filtrados = [];
+  const seleccion = document.getElementById("Filtro");
+
+  filtrados=   anuncios.filter((rta) => {
+    if(seleccion.value == "Todos"){
+      return true;
+    }else return rta.transaccion == seleccion.value;
+  });
+
+  actualizarTabla($seccionTabla,filtrados);
+}
+const seleccion = document.getElementById("Filtro");
+seleccion.addEventListener("change",FiltrarTransaccion);
+
+function CargarSeccion(){
+const selectElement = document.getElementById("Filtro");
+
+const etranValues = [
+  "Todos",
+  "alquiler",
+  "venta"
+];
+etranValues.forEach(function(value) {
+  var option = document.createElement("option");
+  option.value = value;
+  option.textContent = value;
+  selectElement.appendChild(option);
+});
+
+selectElement.value = "Todos";
+}
+
+const checkboxes = document.querySelectorAll('#mapeado input[type="checkbox"]');
+console.log(checkboxes);
+checkboxes.forEach(e=> {e.addEventListener('change', filtrarAtributos) });
+
+function filtrarAtributos() {
+  console.log('filtrar atributo');
+  const checkboxes = document.querySelectorAll('#mapeado input[type="checkbox"]');
+  let atributosSeleccionados = Array.from(checkboxes)
+    .filter(checkbox => checkbox.checked)
+    .map(checkbox => checkbox.name);
+    if (!atributosSeleccionados.includes('id')) {
+      let array=[];
+      array.push('id');
+      atributosSeleccionados.forEach(e =>{ array.push(e);});
+      atributosSeleccionados = array;
+    }
+  
+  const resultado = anuncios.map(obj => {
+    const nuevoObjeto = {};
+    atributosSeleccionados.forEach(atributo => {
+      nuevoObjeto[atributo] = obj[atributo];
+    });
+    return nuevoObjeto;
+  });
+  actualizarTabla($seccionTabla, resultado);
+}
+
+
+function MapeadoPromedio(){
+  let precios = [];
+  
+  precios = anuncios.map(e=> e.precio);
+  
+  var sumaPrecios = precios.reduce(function(total, precio) {
+    return total + precio;
+  }, 0)
+
+  const txt= document.getElementById("promedio");
+
+  txt.value= sumaPrecios;
+}
 
 
 //Seteo addevent para que guarde el manejador 
 
 window.addEventListener('DOMContentLoaded', () => {
     const formulario = document.getElementById('formularioAlta');
-    formulario.txtId.maxlength = anuncios[anuncios.length - 1].id;
-    formulario.txtId.value = anuncios[anuncios.length - 1].id + 1;
+    anuncios= GetAnuncios(URL) || []; 
+   // formulario.txtId.maxlength = anuncios[anuncios.length - 1].id;
+   // formulario.txtId.value = anuncios[anuncios.length - 1].id + 1;
     formulario.addEventListener('submit', Manejador);
-   
+    CargarSeccion();
   });
+
+
 
 
 
@@ -28,9 +126,6 @@ function Manejador(event) {
   if(formulario.btnMod.disabled) {
     GuardarAnuncio();
     }
-  else {
-    ModificarAnuncio(formulario);
-  }
   }
 
 
@@ -74,10 +169,14 @@ function GuardarAnuncio() {
 
 //Agrego el anuncio al array y actualizo el localstorage y la tabla
 function AgregarAnuncio(Anuncio) {
-  anuncios.push(Anuncio);
-  console.log(anuncios);
-  localStorage.setItem('anuncios', JSON.stringify(anuncios));
-  actualizarTabla($seccionTabla,anuncios); 
+  axios.post(URL, Anuncio, {
+    "Content-Type": "application/json; charset=UTF-8",
+  })
+  .then((rta) => {
+  })
+  .catch((err) => {
+    console.error(err.message);
+  });
 }
 
 //Carga los datos de la tabla al formulario
@@ -104,6 +203,23 @@ function CargarDatosSeleccionado(anuncioSeleccionado){
     formulario.btnBorrar.disabled=false;
     formulario.btnCancelar.disabled=false;
     formulario.btnBorrar.addEventListener('click',() => {BorrarAnuncio(anuncioSeleccionado, formulario)});
+    formulario.btnMod.addEventListener('click',() => {
+      anuncioSeleccionado.id = formulario.txtId.value;
+      anuncioSeleccionado.titulo= formulario.txtTitulo.value;
+      anuncioSeleccionado.descripcion =formulario.txtDescripcion.value;
+      anuncioSeleccionado.precio =formulario.txtPrecio.value;
+      anuncioSeleccionado.numBan = formulario.txtCantBaños.value;
+      anuncioSeleccionado.numEstacionamiento =formulario.txtCantAutos.value;
+      anuncioSeleccionado.numDormitorios =formulario.txtDormitorios.value;
+      const transacciones = document.getElementsByName('transaccion');
+      let transaccion;
+      transacciones.forEach(element => {
+        if(element.checked) {
+            transaccion= element.value;
+        }
+    });
+    anuncioSeleccionado.transaccion = transaccion;
+    ModificarAnuncio(formulario, anuncioSeleccionado);});
     formulario.btnCancelar.addEventListener('click',() => {
       LimpiarFormulario(0);
       formulario.btnMod.disabled=true;
@@ -126,23 +242,15 @@ function LimpiarFormulario(id) {
 }
 
 //Modifica el anuncio seleccionado en la tabla
-function ModificarAnuncio(formulario) {
-    anuncios.find((anun) => {
-      if(anun.id===parseInt(formulario.txtId.value) ){
-        console.log("encontre la modific");
-        anun.titulo= formulario.txtTitulo.value;
-        anun.descripcion= formulario.txtDescripcion.value;
-        anun.precio= formulario.txtPrecio.value;
-        anun.numBan= formulario.txtCantBaños.value;
-        anun.numEstacionamiento= formulario.txtCantAutos.value;
-        anun.numDormitorios= formulario.txtDormitorios.value;
-        localStorage.setItem('anuncios', JSON.stringify(anuncios));
-        
-      }
-    }
-    )
-    actualizarTabla($seccionTabla,anuncios);
-    LimpiarFormulario(anuncios[anuncios.length - 1].id + 1);
+function ModificarAnuncio(formulario, anuncio) {
+  axios.put(URL + "/" + anuncio.id, anuncio, {
+    "Content-Type": "application/json; charset=UTF-8",
+  })
+  .then((rta) => {
+  })
+  .catch((err) => {
+    console.error(err.message);
+  });
     formulario.btnMod.disabled=true;
     formulario.btnGuardar.disabled=false;
     formulario.btnBorrar.disabled=true;
@@ -150,17 +258,14 @@ function ModificarAnuncio(formulario) {
 
 //Borra el anuncio seleccionado en la tabla
 function BorrarAnuncio(anuncioBorrar, formulario){
-  let anunciosNuevo= [];
-  anuncios.forEach((anun) => {
-      if(anun.id!==anuncioBorrar.id){
-        anunciosNuevo.push(anun);
-      }
-    });
-  anuncios= anunciosNuevo;
-  localStorage.setItem('anuncios', JSON.stringify(anuncios));
-  actualizarTabla($seccionTabla,anunciosNuevo);
-  console.log(anunciosNuevo);
-  LimpiarFormulario(anunciosNuevo[anunciosNuevo.length - 1].id + 1)
+  loader.classList.remove("oculto");
+  actualizarTabla($seccionTabla,[]);
+  axios.delete(URL + "/" + anuncioBorrar.id)
+  .then((rta) => {
+  })
+  .catch((err) => {
+    console.error(err.message);
+  });
   formulario.btnMod.disabled=true;
   formulario.btnGuardar.disabled=false;
   formulario.btnBorrar.disabled=true;

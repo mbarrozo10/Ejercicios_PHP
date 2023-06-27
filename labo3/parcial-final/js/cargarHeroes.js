@@ -2,6 +2,31 @@
 
 const heroes = JSON.parse(localStorage.getItem('Heroes')) || [];
 
+const personajes = document.getElementById('personajes');
+const home= document.getElementById('home');
+const homefooter= document.getElementById('homefoot');
+const personajeFoot= document.getElementById('personajesfoot');
+
+personajes.addEventListener('click', function(event) {
+  event.preventDefault();
+  window.location.href = './principal.html';
+});
+
+home.addEventListener('click', function(event) {
+  event.preventDefault();
+  window.location.href = './index.html';
+});
+
+homefooter.addEventListener('click', function(event) {
+  event.preventDefault();
+  window.location.href = './index.html';
+});
+
+personajeFoot.addEventListener('click', function(event) {
+  event.preventDefault();
+  window.location.href = './principal.html';
+});
+
 
 window.addEventListener('DOMContentLoaded', () => {
     Generar();
@@ -20,11 +45,16 @@ function Generar() {
         const labelArma= document.createElement('label');
         
 
-        labelNombre.textContent = "nombre: " + hero.nombre;
+        labelNombre.textContent = "Nombre: " + hero.nombre;
         labelAlias.textContent = "Alias: " + hero.alias;
         labelEditorial.textContent ="Editorial: " + hero.editorial;
         labelFuerza.textContent= "Fuerza:  " + hero.fuerza;
         labelArma.textContent = "Arma: " + hero.arma;
+
+        labelFuerza.classList.add("iconoFuerza");
+        labelArma.classList.add("iconoArma");
+        labelAlias.classList.add("iconoAlias");
+        labelEditorial.classList.add("iconoEditorial");
 
         labelNombre.style.display="flex";
         labelAlias.style.display="flex";

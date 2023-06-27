@@ -21,6 +21,7 @@ foreach ($ventas as $ven){
         $cupon = new Cupon ($idCupon, $date, $causa);
         array_push($cupones,$cupon);
         array_push($devoluciones, $devolucion);
+       
         GuardarFoto($devolucion, $fotoCliente);
         file_put_contents("cupones.json", json_encode($cupones));
         file_put_contents("devoluciones.json", json_encode($devoluciones));
@@ -31,6 +32,13 @@ foreach ($ventas as $ven){
         $flag=true;
     }
 }
+$nuevoArray= array();
+foreach($ventas as $ven){
+    if($ven->id != $idPedido){
+        array_push($nuevoArray,$ven);
+    }
+}
+file_put_contents("Ventas.json", json_encode($nuevoArray));
 
 
 if($flag){

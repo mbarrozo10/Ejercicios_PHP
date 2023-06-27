@@ -19,8 +19,5 @@ class Venta{
         $this->id= rand(1,10000);
         $this->fecha= date("Y-m-d");
     }
-
-
-
 }
 ?>

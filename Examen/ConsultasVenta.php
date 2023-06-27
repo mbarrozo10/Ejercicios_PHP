@@ -59,7 +59,7 @@ if($primerFecha!=0 && $segundaFecha != 0){
         }
     }
     $compararNombres= function($primerNombre,$segundoNombre){
-        return strcmp($primerNombre['nombre'], $segundoNombre['nombre']);
+        return strcmp($primerNombre->nombre, $segundoNombre->nombre);
     };
     usort($arrayOrdenado, $compararNombres);
     foreach($arrayOrdenado as $venta){

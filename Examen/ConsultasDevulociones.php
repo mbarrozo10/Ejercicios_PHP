@@ -14,7 +14,7 @@ foreach ($devoluciones as $devolucion) {
     echo "ID de Venta: " . $devolucion->idVenta . " || ";
     echo "Causa: " . $devolucion->causa . " || ";
     foreach ($cupones as $cup){
-        if($cup->id === $devolucion->idCupon) echo "ID de Cupón: " . $cup->id. "||". $cup->estado  . " || ";
+        if($cup->id === $devolucion->idCupon) echo "ID de Cupón: " . $cup->id. "|| <br />";
     }
     
     echo "<br>";
@@ -24,7 +24,21 @@ foreach ($devoluciones as $devolucion) {
 //B
 echo 'Cupones: <br />';
 foreach ($cupones as $cu){
-    echo "ID de Cupón: " . $cup->id. "||". $cup->estado  . " || ";
+    echo "ID de Cupón: " . $cu->id. "||". $cu->estado  . " || <br />";
 }
 
+
+//C
+echo '<br /> Devoluciones: <br />';
+foreach ($devoluciones as $devolucion) {
+    echo "ID: " . $devolucion->id . " || ";
+    echo "Fecha: " . $devolucion->fecha . " || ";
+    echo "ID de Venta: " . $devolucion->idVenta . " || ";
+    echo "Causa: " . $devolucion->causa . " || ";
+    foreach ($cupones as $cup){
+        if($cup->id === $devolucion->idCupon) echo "ID de Cupón: " . $cup->id. "||" . $cup->estado  . " || <br />";
+    }
+    
+    echo "<br>";
+}
 ?>

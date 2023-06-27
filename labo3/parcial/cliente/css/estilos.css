@@ -4,17 +4,24 @@ label{
     flex-direction: columns;
     margin-bottom: 10px;
     color: white;
+    margin-right: 20px;
+    margin-left: 20px;
 }
 
- #txtId,#txtTitulo,#txtDescripcion,#txtCantBaños,#txtCantAutos,#txtDormitorios{
+ #txtId,#txtTitulo,#txtDescripcion,#txtCantBaños,#txtCantAutos,#txtDormitorios, #txtPrecio{
     margin-bottom: 10px;
     border-radius: 8px;
+    margin-right: 20px;
+    margin-left: 20px;
+
 } 
 
 #FieldTransaccion{
     color: white;
     border: none ;
     padding: 0;
+    margin-right: 20px;
+    margin-left: 20px;
 }
 
 #legendaTrans{
@@ -31,12 +38,18 @@ body{
     background-color: #242424;
 }
 
-#FieldAlta{
+/* #FieldAlta{
     margin-bottom: 10px;
     border-radius: 20px;
     
-}
+} */
 
+.pepe{
+    margin-bottom: 10px;
+    border-radius: 20px;
+    border-color: white;
+    border: white solid;
+    }
 h1{
     display: flex;
     flex-direction: column;
@@ -45,12 +58,12 @@ h1{
 }
 
 
-table{
+/* table{
     border-collapse: collapse ;
     width: 80%;
     margin: 0 auto;
     
-}
+} */
 
 #btnGuardar,#btnMod,#btnBorrar, #btnCancelar{
     display: inline-block;
@@ -70,37 +83,35 @@ table{
     margin-bottom: 10px;
 }
 
-th, td{
+/* th, td{
     border: 1px solid white ;
     width:100px;
     height:28px;
     line-height:28px;
     padding:0 8px;
     color: white;
-}
+} */
 
 
-#spinner {
-    margin: auto;
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid #242434;
-    animation: spin 2s linear infinite;
-    display: none;
-  }
-  
-@keyframes spin {
-0% {
-    transform: rotate(0deg);
-}
-100% {
-    transform: rotate(360deg);
-}
-}
-
+/* 
 #selTabla{
-    display: none;
     text-align: center;
+} */
+
+#Filtro{
+    margin-bottom: 10px;
+}
+
+.custom-thead {
+    background-color: black;
+    color: white;
+  }
+
+  #divLoader{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .oculto{
+    display: none;
 }
