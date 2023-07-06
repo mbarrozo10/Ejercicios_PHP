@@ -1,19 +1,104 @@
-import {Heroes} from './heroes.js';
 import {Superheroe} from './superheroe.js';
 import {armas} from './armas.js';
 import {crearTabla} from './tabla.js';
 import {actualizarTabla} from './tabla.js';
+const URL= "http://localhost:3000/heroes";
+const loader= document.getElementById("loader");
+loader.classList.add("oculto");
 
-localStorage.setItem('Armas', JSON.stringify(armas));
 const $seccionTabla= document.getElementById("selTabla");
-let listaHeroes= JSON.parse(localStorage.getItem('Heroes')) || Heroes;
+let listaHeroes=[];
 let flag=true;
 let indice=0;
-localStorage.setItem('Heroes', JSON.stringify(listaHeroes));
 
-const armasHeroes= JSON.parse(localStorage.getItem('Armas'));
+const armasHeroes= armas;
 
-$seccionTabla.appendChild(crearTabla(JSON.parse(localStorage.getItem('Heroes'))));
+function GetAnuncios (url) {
+  loader.classList.remove("oculto");
+    fetch(url)
+  .then((rta) => rta.ok?rta.json():Promise.reject(rta))
+  .then((data) => {
+    listaHeroes= data;
+    $seccionTabla.appendChild(crearTabla(listaHeroes));
+    MapeadoPromedio(listaHeroes);
+    localStorage.setItem("Heroes",JSON.stringify(listaHeroes));
+  })
+  .catch((err) => {
+      console.error(err.message);
+  })
+  .finally(() => {
+    loader.classList.add("oculto");
+
+  });
+}
+
+function CargarSeccion(){
+  const selectElement = document.getElementById("Filtro");
+  
+  const etranValues = [
+    "Todos",
+    "dc",
+    "marvel"
+  ];
+  etranValues.forEach(function(value) {
+    var option = document.createElement("option");
+    option.value = value;
+    option.textContent = value;
+    selectElement.appendChild(option);
+  });
+}
+
+function MapeadoPromedio(Heroes){
+  let fuerza = [];
+  
+  fuerza = Heroes.map(e=> parseInt(e.fuerza));
+  var sumaFuerza = fuerza.reduce(function(total, fuerza) {
+    return parseInt( total + fuerza);
+  }, 0)
+  const promedio= sumaFuerza/Heroes.length;
+
+  const txt= document.getElementById("promedio");
+  txt.value= promedio;
+}
+const checkboxes = document.querySelectorAll('#mapeado input[type="checkbox"]');
+  checkboxes.forEach(e=> {e.addEventListener('change', filtrarAtributos) });
+  
+function filtrarAtributos() {
+  const checkboxes = document.querySelectorAll('#mapeado input[type="checkbox"]');
+  let atributosSeleccionados = Array.from(checkboxes)
+    .filter(checkbox => checkbox.checked)
+    .map(checkbox => checkbox.name);
+    if (!atributosSeleccionados.includes('id')) {
+      let array=[];
+      //array.push('id');
+      atributosSeleccionados.forEach(e =>{ array.push(e);});
+      atributosSeleccionados = array;
+    }
+  
+  const resultado = listaHeroes.map(obj => {
+    const nuevoObjeto = {};
+    atributosSeleccionados.forEach(atributo => {
+      nuevoObjeto[atributo] = obj[atributo];
+    });
+    return nuevoObjeto;
+  });
+  actualizarTabla($seccionTabla, resultado);
+}
+function FiltrarTransaccion() {
+  let filtrados = [];
+  const seleccion = document.getElementById("Filtro");
+
+  filtrados=   listaHeroes.filter((rta) => {
+    if(seleccion.value == "Todos"){
+      return true;
+    }else return rta.editorial == seleccion.value;
+  });
+   MapeadoPromedio(filtrados);
+  actualizarTabla($seccionTabla,filtrados);
+}
+const seleccion = document.getElementById("Filtro");
+seleccion.addEventListener("change",FiltrarTransaccion);
+
 window.addEventListener('DOMContentLoaded', () => {
 
     const formulario = document.getElementById('formularioAlta');
@@ -24,6 +109,8 @@ window.addEventListener('DOMContentLoaded', () => {
       opcion.text= x;
       formulario.arma.appendChild(opcion);
     });
+    GetAnuncios(URL);
+    CargarSeccion();
     formulario.addEventListener('submit', Manejador);
    
   });
@@ -115,12 +202,20 @@ function GuardarAnuncio() {
 
 //Agrego el anuncio al listaHeroes y actualizo el localstorage y la tabla
 function AgregarAnuncio(Anuncio) {
-  listaHeroes
-.push(Anuncio);
-  console.log(listaHeroes
-  );
-  actualizarTabla($seccionTabla,listaHeroes
-  ); 
+  const xhr = new XMLHttpRequest();
+  xhr.addEventListener("readystatechange",()=>{
+    if(xhr.readyState == 4){
+      if(xhr.status >= 200 && xhr.status< 300){
+         actualizarTabla($seccionTabla,listaHeroes); 
+      }else{
+        console.error("Error: " + xhr.status + "-" + xhr.statusText);
+      }
+    }
+  });
+  xhr.open("POST", URL)
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+  xhr.send(JSON.stringify(Anuncio));
 }
 
 //Carga los datos de la tabla al formulario
@@ -137,7 +232,7 @@ function CargarDatosSeleccionado(anuncioSeleccionado){
         }
     }
     
-    if(anuncioSeleccionado.transaccion == "venta")
+    if(anuncioSeleccionado.editorial == "dc")
         {
             document.getElementById('rTransaccionVenta').checked = true;
           
@@ -147,15 +242,16 @@ function CargarDatosSeleccionado(anuncioSeleccionado){
             document.getElementById('rTransaccionAlquiler').checked = true;
         }
     formulario.btnGuardar.value= "Modificar";
-    formulario.btnBorrar.disabled=false;
     formulario.btnCancelar.disabled=false;
-    formulario.btnBorrar.addEventListener('click',() => {BorrarAnuncio(anuncioSeleccionado, formulario)});
     formulario.btnCancelar.addEventListener('click',() => {
       LimpiarFormulario(0);
-    formulario.btnGuardar.value="Guardar";
-    formulario.btnBorrar.disabled=true;
-    formulario.btnCancelar.disabled=true;
-    })
+      formulario.btnGuardar.value="Guardar";
+      formulario.btnBorrar.disabled=true;
+      formulario.btnCancelar.disabled=true;});
+    formulario.btnBorrar.disabled= false
+    formulario.btnBorrar.addEventListener('click',() => {
+      BorrarAnuncio(anuncioSeleccionado, formulario);
+    });
     
 }
 
@@ -178,15 +274,14 @@ function generarId()
 //Limpia el formulario
 function LimpiarFormulario(id) {
   flag=true;
-  localStorage.setItem('Heroes', JSON.stringify(listaHeroes
-  ));
   document.getElementById('txtTitulo').value = "";
   document.getElementById('txtDescripcion').value = "";
 }
 
 //Modifica el anuncio seleccionado en la tabla
 function ModificarAnuncio(formulario) {
-    listaHeroes
+
+  const heroe= listaHeroes
   .find((personaje) => {
       if(personaje.id===parseInt(indice) ){
         personaje.nombre= formulario.txtTitulo.value;
@@ -210,35 +305,44 @@ function ModificarAnuncio(formulario) {
         personaje.editorial= transaccion;
         personaje.arma= arma;
         flag=true;
+        return personaje;
       }
     }
     )
-    actualizarTabla($seccionTabla,listaHeroes
-    );
-    LimpiarFormulario(listaHeroes
-    [listaHeroes
-    .length - 1].id + 1);
+
+    const xhr = new XMLHttpRequest();
+  xhr.addEventListener("readystatechange",()=>{
+    if(xhr.readyState == 4){
+      loader.classList.add("oculto");
+    }
+  });
+  xhr.open("PUT", URL + "/" + heroe.id)
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+  xhr.send(JSON.stringify(heroe));
+
+  actualizarTabla($seccionTabla,listaHeroes);
     
     formulario.btnGuardar.value="Guardar";
-    formulario.btnBorrar.disabled=true;
 }
 
 //Borra el anuncio seleccionado en la tabla
 function BorrarAnuncio(anuncioBorrar, formulario){
-  let anunciosNuevo= [];
-  flag=true;
-  listaHeroes
-.forEach((personaje) => {
-      if(personaje.id!==anuncioBorrar.id){
-        anunciosNuevo.push(personaje);
+  const xhr = new XMLHttpRequest();
+  xhr.addEventListener("readystatechange",()=>{
+    if(xhr.readyState == 4){
+      if(xhr.status >= 200 && xhr.status< 300){
+         listaHeroes= JSON.parse(xhr.responseText);
+      }else{
+        console.error("Error: " + xhr.status + "-" + xhr.statusText);
       }
-    });
-  listaHeroes
-= anunciosNuevo;
-  actualizarTabla($seccionTabla,anunciosNuevo);
-  console.log(anunciosNuevo);
-  LimpiarFormulario(anunciosNuevo[anunciosNuevo.length - 1].id + 1)
+      loader.classList.add("oculto");
+    }
+  });
+  xhr.open("DELETE", URL + "/" + anuncioBorrar.id);
+  xhr.send();
   
+  formulario.btnBorrar.disabled = true;
   formulario.btnGuardar.value="Guardar";
   formulario.btnBorrar.disabled=true;
 }

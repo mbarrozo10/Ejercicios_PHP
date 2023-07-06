@@ -18,7 +18,7 @@ function GetAnuncios (url) {
       if(xhr.status >= 200 && xhr.status< 300){
          anuncios= JSON.parse(xhr.responseText);
          $seccionTabla.appendChild(crearTabla(anuncios));
-         MapeadoPromedio();
+         MapeadoPromedio(anuncios);
       }else{
         console.error("Error: " + xhr.status + "-" + xhr.statusText);
       }
@@ -53,7 +53,7 @@ window.addEventListener('DOMContentLoaded', () => {
         return true;
       }else return rta.transaccion == seleccion.value;
     });
-  
+    MapeadoPromedio(filtrados);
     actualizarTabla($seccionTabla,filtrados);
   }
   const seleccion = document.getElementById("Filtro");
@@ -105,18 +105,20 @@ window.addEventListener('DOMContentLoaded', () => {
   }
   
   
-  function MapeadoPromedio(){
+  function MapeadoPromedio(Anuncios){
     let precios = [];
     
-    precios = anuncios.map(e=> e.precio);
+    precios = Anuncios.map(e=> e.precio);
     
     var sumaPrecios = precios.reduce(function(total, precio) {
       return total + precio;
     }, 0)
+
+    const promedio= sumaPrecios/Anuncios.length;
   
     const txt= document.getElementById("promedio");
   
-    txt.value= sumaPrecios;
+    txt.value= promedio;
   }
   
   
@@ -297,7 +299,6 @@ function ModificarAnuncio(formulario, anuncio) {
 //Borra el anuncio seleccionado en la tabla
 function BorrarAnuncio(anuncioBorrar, formulario) {
   loader.classList.remove("oculto");
-  actualizarTabla($seccionTabla,[]);
   const xhr = new XMLHttpRequest();
   xhr.addEventListener("readystatechange",()=>{
     if(xhr.readyState == 4){
